@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terik Art – Hand Made by Terezie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Great+Vibes&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#00B4C5;--teal-dk:#008A98;--teal-lt:#E0F7FA;--ink:#111111;--bg:#F8F7F5;--white:#FFFFFF;--mid:#666660;--border:#E2DDD8;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:"Jost",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+
+/* LOGO */
+.logo-mark{display:inline-flex;align-items:center;gap:14px;text-decoration:none;cursor:pointer;}
+.logo-td{position:relative;width:52px;height:52px;flex-shrink:0;}
+.logo-td .lt{font-family:"Cormorant Garamond",serif;font-size:3rem;font-weight:600;line-height:1;color:var(--ink);position:absolute;top:0;left:0;}
+.logo-td .ld{font-family:"Cormorant Garamond",serif;font-size:3rem;font-weight:600;line-height:1;color:var(--teal);position:absolute;top:10px;left:20px;}
+.logo-text{display:flex;flex-direction:column;line-height:1;}
+.logo-name{font-family:"Great Vibes",cursive;font-size:1.5rem;color:var(--ink);line-height:1.1;}
+.logo-sub{font-size:0.56rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);margin-top:2px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:600;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;background:rgba(248,247,245,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:box-shadow 0.3s;}
+nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,0.08);}
+.nav-links{display:flex;gap:2.4rem;list-style:none;}
+.nav-links a{text-decoration:none;font-size:0.8rem;font-weight:500;letter-spacing:0.13em;text-transform:uppercase;color:var(--mid);position:relative;padding-bottom:2px;transition:color 0.2s;}
+.nav-links a::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1.5px;background:var(--teal);transform:scaleX(0);transition:transform 0.25s;}
+.nav-links a:hover,.nav-links a.active{color:var(--ink);}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1);}
+.hamburger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--ink);}
+.mob-menu{display:none;position:fixed;top:72px;left:0;right:0;z-index:599;background:var(--bg);border-bottom:1px solid var(--border);padding:1.2rem 5vw 1.8rem;}
+.mob-menu.open{display:block;}
+.mob-menu a{display:block;padding:0.8rem 0;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;font-size:0.85rem;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--border);}
+
+/* PAGES */
+.page{display:none;padding-top:72px;}
+.page.active{display:block;}
+
+/* HERO */
+.hero{min-height:calc(100vh - 72px);display:grid;grid-template-columns:1fr 1fr;}
+.hero-left{padding:6vw 4vw 6vw 6vw;display:flex;flex-direction:column;justify-content:center;background:var(--bg);position:relative;z-index:2;}
+.hero-eyebrow{font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:2rem;animation:fadeUp 0.6s ease both;}
+.hero-title{font-family:"Cormorant Garamond",serif;font-size:clamp(3.2rem,5vw,5.5rem);font-weight:300;line-height:1.0;animation:fadeUp 0.6s ease 0.12s both;}
+.hero-title .script{font-family:"Great Vibes",cursive;font-size:1.25em;color:var(--teal);display:block;line-height:1.1;}
+.hero-desc{margin-top:2rem;max-width:380px;font-size:1rem;color:var(--mid);line-height:1.8;font-weight:300;animation:fadeUp 0.6s ease 0.24s both;}
+.hero-actions{display:flex;gap:1rem;margin-top:2.4rem;flex-wrap:wrap;animation:fadeUp 0.6s ease 0.36s both;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:0.8rem 1.8rem;border-radius:2px;font-family:"Jost",sans-serif;font-weight:500;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;border:1.5px solid transparent;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s,background 0.2s;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.13);}
+.btn-teal{background:var(--teal);color:#fff;border-color:var(--teal);}
+.btn-teal:hover{background:var(--teal-dk);}
+.btn-outline{background:transparent;border-color:var(--ink);color:var(--ink);}
+.btn-outline:hover{background:var(--ink);color:#fff;}
+
+/* HERO RIGHT SLIDER */
+.hero-right{position:relative;overflow:hidden;min-height:400px;}
+.hero-canvas{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 25%,rgba(0,180,197,0.55) 0%,transparent 60%),radial-gradient(ellipse 55% 55% at 85% 15%,rgba(0,140,160,0.45) 0%,transparent 55%),radial-gradient(ellipse 65% 65% at 55% 85%,rgba(0,100,120,0.50) 0%,transparent 60%),radial-gradient(ellipse 45% 50% at 90% 65%,rgba(180,230,235,0.4) 0%,transparent 50%),radial-gradient(ellipse 50% 40% at 10% 80%,rgba(0,60,80,0.40) 0%,transparent 50%);background-color:#006d7a;animation:canvasShift 14s ease-in-out infinite alternate;}
+@keyframes canvasShift{0%{filter:brightness(1) saturate(1);}100%{filter:brightness(1.08) saturate(1.1);}}
+.hero-right::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--teal);z-index:4;}
+.slider-wrap{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:2rem;gap:1.2rem;}
+.slider-viewport{overflow:hidden;border-radius:12px;flex:1;min-height:0;}
+.slider-track{display:flex;height:100%;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);}
+.slide{min-width:100%;height:100%;position:relative;flex-shrink:0;border-radius:12px;overflow:hidden;cursor:pointer;}
+.slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.slide::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,40,50,0.72) 0%,transparent 55%);}
+.slide-label{position:absolute;bottom:1.2rem;left:1.2rem;z-index:2;color:#fff;}
+.slide-label-name{font-family:"Cormorant Garamond",serif;font-size:1.3rem;font-weight:400;line-height:1.1;}
+.slide-label-sub{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-top:3px;font-style:italic;}
+.slider-controls{display:flex;align-items:center;gap:1rem;flex-shrink:0;}
+.slider-btn{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s;flex-shrink:0;}
+.slider-btn:hover{background:var(--teal);transform:scale(1.08);}
+.slider-dots{display:flex;gap:7px;flex:1;}
+.slider-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.35);cursor:pointer;transition:background 0.25s,transform 0.25s;border:none;}
+.slider-dot.active{background:#fff;transform:scale(1.3);}
+
+/* FEATURED ROW */
+.featured-row{padding:2.5rem 6vw;display:flex;align-items:center;gap:3rem;border-top:1px solid var(--border);overflow-x:auto;}
+.feat-label{font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--mid);white-space:nowrap;}
+.feat-items{display:flex;}
+.feat-item{padding:0 1.4rem;border-right:1px solid var(--border);font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.05rem;color:var(--mid);cursor:pointer;white-space:nowrap;transition:color 0.2s;}
+.feat-item:first-child{padding-left:0;}
+.feat-item:hover{color:var(--teal);}
+
+/* PREVIEW GRID */
+.preview-section{padding:4rem 6vw 5rem;}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;}
+.section-head h2{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:300;}
+.section-head h2 em{font-style:italic;color:var(--teal);}
+.preview-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,240px);gap:12px;}
+.prev-cell{border-radius:6px;overflow:hidden;cursor:pointer;position:relative;}
+.prev-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;}
+.prev-cell:hover img{transform:scale(1.07);}
+.prev-cell.span2h{grid-column:span 2;}
+.prev-cell.span2v{grid-row:span 2;}
+.prev-cell::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,180,197,0.5) 0%,transparent 60%);opacity:0;transition:opacity 0.35s;}
+.prev-cell:hover::after{opacity:1;}
+.prev-cell-label{position:absolute;bottom:0.8rem;left:1rem;z-index:2;color:#fff;font-size:0.85rem;font-weight:500;opacity:0;transition:opacity 0.35s;pointer-events:none;}
+.prev-cell:hover .prev-cell-label{opacity:1;}
+.prev-cta{background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;cursor:pointer;gap:0.5rem;border-radius:6px;transition:background 0.25s;}
+.prev-cta:hover{background:var(--teal);}
+.prev-cta-big{font-family:"Cormorant Garamond",serif;font-size:1.6rem;font-weight:300;line-height:1.2;}
+.prev-cta small{font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;opacity:0.65;}
+
+/* GALLERY PAGE */
+.page-banner{height:28vh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:2.5rem 6vw;background:radial-gradient(ellipse 55% 60% at 15% 35%,rgba(0,180,197,0.7) 0%,transparent 55%),radial-gradient(ellipse 45% 50% at 82% 18%,rgba(0,150,170,0.6) 0%,transparent 50%),radial-gradient(ellipse 65% 60% at 60% 82%,rgba(0,110,130,0.65) 0%,transparent 55%),radial-gradient(ellipse 38% 42% at 8% 80%,rgba(0,60,80,0.55) 0%,transparent 45%),radial-gradient(ellipse 48% 38% at 90% 65%,rgba(180,235,240,0.3) 0%,transparent 45%);background-color:#005d6b;}
+.page-banner::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(10,6,2,0.65) 0%,transparent 60%);}
+.page-banner h2{font-family:"Cormorant Garamond",serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:300;color:#fff;line-height:1.1;position:relative;z-index:2;}
+.page-banner h2 em{font-style:italic;color:var(--teal);}
+.filter-bar{padding:1.2rem 6vw;display:flex;gap:0.5rem;flex-wrap:wrap;}
+.fchip{padding:0.38rem 1rem;border-radius:2px;border:1px solid var(--border);background:transparent;font-family:"Jost",sans-serif;font-weight:500;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);cursor:pointer;transition:all 0.2s;}
+.fchip:hover{border-color:var(--teal);color:var(--teal);}
+.fchip.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+
+/* MASONRY */
+.masonry{columns:4 220px;column-gap:12px;padding:1.5rem 6vw 5rem;}
+.m-card{break-inside:avoid;margin-bottom:12px;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;background:#006d7a;border:1px solid #005f6b;}
+.m-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,0.2);}
+.m-card .img-wrap{padding:10px 10px 0;overflow:hidden;}
+.m-card img{width:100%;display:block;border-radius:8px 8px 0 0;object-fit:cover;transition:transform 0.4s ease;}
+.m-card:hover img{transform:scale(1.04);}
+.m-foot{padding:0.75rem 1rem 1rem;}
+.m-cat{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:#7de8f2;font-weight:600;margin-bottom:4px;}
+.m-name{font-family:"Cormorant Garamond",serif;font-size:1.05rem;font-weight:600;color:#fff;}
+.m-quote{font-size:0.78rem;color:rgba(255,255,255,0.78);font-style:italic;margin-top:3px;line-height:1.4;}
+
+/* LIGHTBOX */
+.lb{display:none;position:fixed;inset:0;z-index:900;background:rgba(10,8,6,0.9);align-items:center;justify-content:center;padding:2rem;}
+.lb.open{display:flex;}
+.lb-box{background:var(--white);border-radius:10px;overflow:hidden;max-width:900px;width:100%;display:grid;grid-template-columns:3fr 2fr;box-shadow:0 40px 100px rgba(0,0,0,0.5);animation:popIn 0.28s ease;position:relative;}
+@keyframes popIn{from{transform:scale(0.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+.lb-img{max-height:85vh;width:100%;object-fit:cover;display:block;}
+.lb-info{padding:2.5rem;display:flex;flex-direction:column;justify-content:center;border-left:3px solid var(--teal);}
+.lb-info h3{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:400;margin-bottom:1rem;}
+.lb-info p{font-style:italic;color:var(--mid);line-height:1.75;font-size:0.95rem;}
+.lb-close{position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.2s;}
+.lb-close:hover{transform:rotate(90deg);}
+
+/* ABOUT */
+.about-wrap{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 72px);}
+.about-slider-panel{position:relative;overflow:hidden;min-height:400px;}
+.about-canvas{position:absolute;inset:0;background:radial-gradient(ellipse 65% 60% at 20% 30%,rgba(0,180,197,0.55) 0%,transparent 60%),radial-gradient(ellipse 55% 55% at 80% 15%,rgba(0,140,160,0.45) 0%,transparent 55%),radial-gradient(ellipse 60% 65% at 50% 85%,rgba(0,100,120,0.50) 0%,transparent 60%),radial-gradient(ellipse 45% 45% at 90% 60%,rgba(180,230,235,0.4) 0%,transparent 50%);background-color:#006d7a;animation:canvasShift 14s ease-in-out infinite alternate;}
+.about-slider-panel::before{content:"";position:absolute;right:0;top:0;bottom:0;width:5px;background:var(--teal);z-index:4;}
+.about-content{padding:5vw 6vw;display:flex;flex-direction:column;justify-content:center;background:var(--bg);}
+.about-content .eyebrow{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:1.2rem;}
+.about-content h2{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;line-height:1.15;margin-bottom:1.6rem;}
+.about-content h2 em{font-style:italic;color:var(--teal);}
+.about-content p{color:var(--mid);line-height:1.85;margin-bottom:1rem;font-size:0.96rem;font-weight:300;}
+.stats-row{display:flex;gap:2rem;margin-top:2.2rem;padding-top:2rem;border-top:1px solid var(--border);}
+.stat-n{font-family:"Cormorant Garamond",serif;font-size:2.5rem;font-weight:300;color:var(--teal);line-height:1;}
+.stat-l{font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);margin-top:4px;}
+
+/* CONTACT */
+.contact-hero{height:28vh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:2.5rem 6vw;background:radial-gradient(ellipse 55% 60% at 15% 35%,rgba(0,180,197,0.7) 0%,transparent 55%),radial-gradient(ellipse 45% 50% at 82% 18%,rgba(0,150,170,0.6) 0%,transparent 50%),radial-gradient(ellipse 65% 60% at 60% 82%,rgba(0,110,130,0.65) 0%,transparent 55%),radial-gradient(ellipse 38% 42% at 8% 80%,rgba(0,60,80,0.55) 0%,transparent 45%),radial-gradient(ellipse 48% 38% at 90% 65%,rgba(180,235,240,0.3) 0%,transparent 45%);background-color:#005d6b;}
+.contact-hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(10,6,2,0.72) 0%,transparent 60%);}
+.contact-hero-inner{position:relative;z-index:2;}
+.contact-hero h2{font-family:"Cormorant Garamond",serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:300;color:#fff;line-height:1.1;}
+.contact-hero h2 em{font-style:italic;color:var(--teal);}
+.contact-body{display:grid;grid-template-columns:3fr 2fr;gap:3rem;padding:3.5rem 6vw 5rem;align-items:start;}
+.c-form-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:2.5rem;border-top:3px solid var(--teal);}
+.c-form-card h3{font-family:"Cormorant Garamond",serif;font-size:1.5rem;font-weight:400;margin-bottom:1.2rem;}
+.c-form-card p{color:var(--mid);font-size:0.92rem;line-height:1.7;margin-bottom:1.5rem;}
+.c-form-card .gdpr{font-size:0.75rem;color:var(--mid);margin-top:1.2rem;line-height:1.6;border-top:1px solid var(--border);padding-top:1rem;}
+.c-aside h3{font-family:"Cormorant Garamond",serif;font-size:1.5rem;font-weight:400;margin-bottom:1.5rem;}
+.c-detail-row{display:flex;flex-direction:column;gap:0.25rem;padding:0.9rem 0;border-bottom:1px solid var(--border);}
+.c-detail-row:last-of-type{border-bottom:none;}
+.c-dl{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+.c-dv{font-size:0.92rem;margin-top:1px;}
+.c-email-link{color:var(--teal);text-decoration:none;}
+.c-email-link:hover{text-decoration:underline;}
+.c-mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2rem;border-radius:6px;overflow:hidden;}
+.c-mini img{width:100%;aspect-ratio:1;object-fit:cover;display:block;cursor:pointer;transition:transform 0.3s;}
+.c-mini img:hover{transform:scale(1.04);}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:2.5rem 6vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;font-size:0.8rem;}
+.foot-logo .lt{color:#fff !important;}
+.foot-links{display:flex;gap:2rem;}
+.foot-links a{color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;}
+.foot-links a:hover{color:var(--teal);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;}
+  .hero-right{height:60vw;}
+  .hero-left{padding:3rem 6vw;}
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .preview-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(4,180px);}
+  .about-wrap{grid-template-columns:1fr;}
+  .about-slider-panel{height:55vw;}
+  .contact-body{grid-template-columns:1fr;}
+  .masonry{columns:2 160px;}
+  .lb-box{grid-template-columns:1fr;}
+  .lb-img{max-height:50vw;}
+  footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a class="logo-mark" href="#" onclick="go('home')">
+    <div class="logo-td"><span class="lt">T</span><span class="ld">D</span></div>
+    <div class="logo-text"><span class="logo-name">Terik Art</span><span class="logo-sub">Hand Made</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="go('home')" id="nl-home" class="active">Dom&#367;</a></li>
+    <li><a href="#" onclick="go('gallery')" id="nl-gallery">Moje h&#225;&#269;kov&#225;n&#237;</a></li>
+    <li><a href="#" onclick="go('about')" id="nl-about">O mn&#283;</a></li>
+    <li><a href="#" onclick="go('contact')" id="nl-contact">Kontakt</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleM()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="#" onclick="go('home');closeM()">Dom&#367;</a>
+  <a href="#" onclick="go('gallery');closeM()">Moje h&#225;&#269;kov&#225;n&#237;</a>
+  <a href="#" onclick="go('about');closeM()">O mn&#283;</a>
+  <a href="#" onclick="go('contact');closeM()">Kontakt</a>
+</div>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">H&#225;&#269;kov&#225;n&#237; &#183; Amigurumi &#183; Hand Made</p>
+      <h1 class="hero-title">Ru&#269;n&#283;<br>tvo&#345;eno<br><span class="script">s l&#225;skou</span></h1>
+      <p class="hero-desc">Ter&#269;in h&#225;&#269;kovan&#253; sv&#283;t, kde ka&#382;d&#253; ply&#353;&#225;k i dekorace vznik&#225; pomalu, s p&#233;&#269;&#237; a spoustou barevn&#233; vlny.</p>
+      <div class="hero-actions">
+        <a class="btn btn-teal" href="#" onclick="go('gallery')">Prohl&#233;dnout</a>
+        <a class="btn btn-outline" href="#" onclick="go('contact')">Napsat</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-canvas"></div>
+      <div class="slider-wrap">
+        <div class="slider-viewport">
+          <div class="slider-track" id="sliderTrack"></div>
+        </div>
+        <div class="slider-controls">
+          <button class="slider-btn" id="btnPrev">&#8592;</button>
+          <div class="slider-dots" id="sliderDots"></div>
+          <button class="slider-btn" id="btnNext">&#8594;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="featured-row">
+    <span class="feat-label">Obl&#237;ben&#233;</span>
+    <div class="feat-items">
+      <span class="feat-item" onclick="openByName('Bezzubka')">Bezzubka</span>
+      <span class="feat-item" onclick="openByName('Kr&#225;l&#237;&#269;ek v py&#382;amku')">Kr&#225;l&#237;&#269;ek v py&#382;amku</span>
+      <span class="feat-item" onclick="openByName('Unicorn')">Unicorn</span>
+      <span class="feat-item" onclick="openByName('Mini Sushi')">Mini Sushi</span>
+      <span class="feat-item" onclick="openByName('Kapybara')">Kapybara</span>
+      <span class="feat-item" onclick="openByName('Lilo panenka')">Lilo panenka</span>
+    </div>
+  </div>
+
+  <div class="preview-section">
+    <div class="section-head">
+      <h2>V&#253;b&#283;r z <em>galerie</em></h2>
+      <a class="btn btn-outline" href="#" onclick="go('gallery')">Zobrazit v&#353;e &rarr;</a>
+    </div>
+    <div class="preview-grid">
+      <div class="prev-cell span2v" onclick="go('gallery')">
+        <img src="https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000095-b5447b5449/IMG-20251122-WA0012.jpeg?ph=fc54d4bc0f" alt="Pol&#225;rn&#237; li&#353;ka" style="object-fit:cover;object-position:center 55%;">
+        <span class="prev-cell-label">Pol&#225;rn&#237; li&#353;ka</span>
+      </div>
+      <div class="prev-cell" onclick="go('gallery')">
+        <img src="https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000094-9869e986a0/IMG-20251122-WA0011.jpeg?ph=fc54d4bc0f" alt="O pejskovi a ko&#269;i&#269;ce">
+        <span class="prev-cell-label">O pejskovi a ko&#269;i&#269;ce</span>
+      </div>
+      <div class="prev-cell" onclick="go('gallery')">
+        <img src="https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000106-2130721309/IMG-20251122-WA0018.jpeg?ph=fc54d4bc0f" alt="&#381;abi&#269;ky">
+        <span class="prev-cell-label">&#381;abi&#269;ky</span>
+      </div>
+      <div class="prev-cell span2h" onclick="go('gallery')">
+        <img src="https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000107-76b2b76b2d/IMG-20251122-WA0019.jpeg?ph=fc54d4bc0f" alt="Duch&#243;v&#233;" style="height:100%;width:100%;object-fit:cover;object-position:center 40%;">
+        <span class="prev-cell-label">Duch&#243;v&#233;</span>
+      </div>
+      <div class="prev-cta" onclick="go('gallery')">
+        <span class="prev-cta-big">Cel&#225;<br>galerie</span>
+        <small>Moje h&#225;&#269;kov&#225;n&#237;</small>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a class="logo-mark foot-logo" href="#" onclick="go('home')">
+      <div class="logo-td" style="width:40px;height:40px;"><span class="lt" style="font-size:2.4rem;color:#fff;">T</span><span class="ld" style="font-size:2.4rem;">D</span></div>
+      <div class="logo-text"><span class="logo-name" style="font-size:1.2rem;color:#fff;">Terik Art</span><span class="logo-sub">Hand Made</span></div>
+    </a>
+    <div class="foot-links">
+      <a href="#" onclick="go('gallery')">Moje h&#225;&#269;kov&#225;n&#237;</a>
+      <a href="#" onclick="go('about')">O mn&#283;</a>
+      <a href="#" onclick="go('contact')">Kontakt</a>
+    </div>
+    <span>&copy; 2026 Terik Art &middot; Terezie Davidov&#225;</span>
+  </footer>
+</div>
+
+<!-- GALLERY -->
+<div class="page" id="page-gallery">
+  <div class="page-banner"><h2>Moje<br><em>h&#225;&#269;kov&#225;n&#237;</em></h2></div>
+  <div class="filter-bar">
+    <button class="fchip on" onclick="doFilter('all',this)">V&#353;e</button>
+    <button class="fchip" onclick="doFilter('zvirata',this)">Zv&#237;&#345;ata</button>
+    <button class="fchip" onclick="doFilter('postavy',this)">Postavi&#269;ky</button>
+    <button class="fchip" onclick="doFilter('dekorace',this)">Dekorace &amp; jin&#233;</button>
+  </div>
+  <div class="masonry" id="masonry"></div>
+  <footer>
+    <a class="logo-mark foot-logo" href="#" onclick="go('home')">
+      <div class="logo-td" style="width:40px;height:40px;"><span class="lt" style="font-size:2.4rem;color:#fff;">T</span><span class="ld" style="font-size:2.4rem;">D</span></div>
+      <div class="logo-text"><span class="logo-name" style="font-size:1.2rem;color:#fff;">Terik Art</span><span class="logo-sub">Hand Made</span></div>
+    </a>
+    <div class="foot-links">
+      <a href="#" onclick="go('home')">Dom&#367;</a>
+      <a href="#" onclick="go('about')">O mn&#283;</a>
+      <a href="#" onclick="go('contact')">Kontakt</a>
+    </div>
+    <span>&copy; 2026 Terik Art &middot; Terezie Davidov&#225;</span>
+  </footer>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="page-about">
+  <div class="about-wrap">
+    <div class="about-slider-panel">
+      <div class="about-canvas"></div>
+      <div class="slider-wrap">
+        <div class="slider-viewport">
+          <div class="slider-track" id="aboutSliderTrack"></div>
+        </div>
+        <div class="slider-controls">
+          <button class="slider-btn" id="aboutBtnPrev">&#8592;</button>
+          <div class="slider-dots" id="aboutSliderDots"></div>
+          <button class="slider-btn" id="aboutBtnNext">&#8594;</button>
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <p class="eyebrow">O mn&#283;</p>
+      <h2>Ahoj,<br>jsem <em>Terka</em> &#128075;</h2>
+      <p>V&#353;echno to za&#269;alo jednou pandou. Dnes m&#225;m doma celou zoo.</p>
+      <p>H&#225;&#269;kuji zv&#237;&#345;ata, poh&#225;dkov&#233; postavi&#269;ky, jednoro&#382;ce, sushi pol&#353;t&#225;&#345;e &mdash; zkr&#225;tka v&#353;e, co m&#283; zaujme a co jde uh&#225;&#269;kovat.</p>
+      <p>Specializuji se na <strong>amigurumi</strong> &mdash; japonsk&#233; um&#283;n&#237; tvo&#345;en&#237; roztomill&#253;ch hra&#269;ek z vlny. Ka&#382;d&#253; v&#253;tvor dostane jm&#233;no, charakter a kousek m&#233;ho srdce.</p>
+      <p>&#268;&#225;st putuje jako d&#225;rky k p&#345;&#225;tel&#367;m a rodin&#283;, &#269;&#225;st si nech&#225;v&#225;m jako vzpom&#237;nku. Ale radost d&#283;laj&#237; v&#353;echny.</p>
+      <div class="stats-row">
+        <div><div class="stat-n">30+</div><div class="stat-l">V&#253;tvor&#367;</div></div>
+        <div><div class="stat-n">&#8734;</div><div class="stat-l">Metr&#367; vlny</div></div>
+        <div><div class="stat-n">&#9825;</div><div class="stat-l">S l&#225;skou</div></div>
+      </div>
+      <div style="margin-top:2rem;"><a class="btn btn-teal" href="#" onclick="go('gallery')">Prohl&#233;dnout v&#253;tvory</a></div>
+    </div>
+  </div>
+  <footer>
+    <a class="logo-mark foot-logo" href="#" onclick="go('home')">
+      <div class="logo-td" style="width:40px;height:40px;"><span class="lt" style="font-size:2.4rem;color:#fff;">T</span><span class="ld" style="font-size:2.4rem;">D</span></div>
+      <div class="logo-text"><span class="logo-name" style="font-size:1.2rem;color:#fff;">Terik Art</span><span class="logo-sub">Hand Made</span></div>
+    </a>
+    <div class="foot-links">
+      <a href="#" onclick="go('home')">Dom&#367;</a>
+      <a href="#" onclick="go('gallery')">Moje h&#225;&#269;kov&#225;n&#237;</a>
+      <a href="#" onclick="go('contact')">Kontakt</a>
+    </div>
+    <span>&copy; 2026 Terik Art &middot; Terezie Davidov&#225;</span>
+  </footer>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div class="contact-hero">
+    <div class="contact-hero-inner">
+      <h2>Kontakt<br>na <em>mn&#283;</em></h2>
+    </div>
+  </div>
+  <div class="contact-body">
+    <div class="c-form-card">
+      <h3>Napi&#353;te mi</h3>
+      <p>R&#225;da si p&#345;e&#269;tu ka&#382;dou zpr&#225;vu &mdash; a&#357; u&#382; jde o dotaz na v&#253;tvor, objedn&#225;vku na m&#237;ru, nebo jen hezk&#233; slovo. Pokud m&#225;te tip na jarmark, kde bych mohla sv&#233; v&#253;tvory p&#345;edv&#233;st, nev&#225;hejte se pochlubit. Budu se t&#283;&#353;it na va&#353;e zpr&#225;vy.</p>
+      <a class="btn btn-teal" href="mailto:terikart653@gmail.com" style="width:100%;justify-content:center;display:flex;margin-top:0.5rem;">&#9993;&nbsp; terikart653@gmail.com</a>
+      <p class="gdpr">Odesl&#225;n&#237;m zpr&#225;vy (emailem) souhlas&#237;te s t&#237;m, &#382;e va&#353;e kontaktn&#237; &#250;daje budou pou&#382;ity v&#253;hradn&#283; za &#250;&#269;elem odpov&#283;di na va&#353;i zpr&#225;vu a nebudou d&#225;le zpracov&#225;v&#225;ny ani p&#345;ed&#225;v&#225;ny t&#345;et&#237;m stran&#225;m. Spr&#225;vcem &#250;daj&#367; je z&#225;konn&#253; z&#225;stupce provozovatelky webu.</p>
+    </div>
+    <div class="c-aside">
+      <h3>Informace</h3>
+      <div class="c-detail-row"><span class="c-dl">Jm&#233;no</span><span class="c-dv">Terezie Davidov&#225;</span></div>
+      <div class="c-detail-row"><span class="c-dl">E-mail</span><a class="c-dv c-email-link" href="mailto:terikart653@gmail.com">terikart653@gmail.com</a></div>
+      <div class="c-detail-row"><span class="c-dl">Zam&#283;&#345;en&#237;</span><span class="c-dv">Amigurumi &middot; H&#225;&#269;kov&#225;n&#237; &middot; V&#253;tvory na m&#237;ru</span></div>
+      <div class="c-detail-row"><span class="c-dl">Dostupnost</span><span class="c-dv">V&#253;tvory na m&#237;ru dle domluvy</span></div>
+      <div class="c-mini">
+        <img src="https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000004-487154871a/IMG-20250402-WA0015.jpeg?ph=fc54d4bc0f" alt="Kapybara" onclick="lbOpen(20)">
+        <img src="https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000078-8a0618a063/shark.jpeg?ph=fc54d4bc0f" alt="Shark" onclick="lbOpen(6)">
+      </div>
+    </div>
+  </div>
+  <footer>
+    <a class="logo-mark foot-logo" href="#" onclick="go('home')">
+      <div class="logo-td" style="width:40px;height:40px;"><span class="lt" style="font-size:2.4rem;color:#fff;">T</span><span class="ld" style="font-size:2.4rem;">D</span></div>
+      <div class="logo-text"><span class="logo-name" style="font-size:1.2rem;color:#fff;">Terik Art</span><span class="logo-sub">Hand Made</span></div>
+    </a>
+    <div class="foot-links">
+      <a href="#" onclick="go('home')">Dom&#367;</a>
+      <a href="#" onclick="go('gallery')">Moje h&#225;&#269;kov&#225;n&#237;</a>
+      <a href="#" onclick="go('about')">O mn&#283;</a>
+    </div>
+    <span>&copy; 2026 Terik Art &middot; Terezie Davidov&#225;</span>
+  </footer>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="lbClose(event)">
+  <button class="lb-close" onclick="lbClose()">&#10005;</button>
+  <div class="lb-box">
+    <img class="lb-img" id="lbImg" src="" alt="">
+    <div class="lb-info"><h3 id="lbN"></h3><p id="lbQ"></p></div>
+  </div>
+</div>
+
+<script>
+var ITEMS = [
+  {n:"O pejskovi a kočičce",q:"Ti dva jsou jako z pohádkové knížky.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000094-9869e986a0/IMG-20251122-WA0011.jpeg?ph=fc54d4bc0f"},
+  {n:"Bezzubka",q:"Dráček z pohádky Jak vycvičit draka.",c:"postavy",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000115-de8a7de8a9/Obr%C3%A1zek%20WhatsApp%2C%202025-11-22%20v%2021.55.47_0c9c2d27.jpeg?ph=fc54d4bc0f"},
+  {n:"Králíček v pyžamku",q:"Bez pyžamka nejde ani na krok.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000116-dc41edc41f/Obr%C3%A1zek%20WhatsApp%2C%202025-11-22%20v%2021.55.47_2119afcd.jpeg?ph=fc54d4bc0f"},
+  {n:"Duchóvé",q:"Dva malí kamarádi.",c:"postavy",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000107-76b2b76b2d/IMG-20251122-WA0019.jpeg?ph=fc54d4bc0f"},
+  {n:"Žabičky",q:"Kámošky jako hrom.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000106-2130721309/IMG-20251122-WA0018.jpeg?ph=fc54d4bc0f"},
+  {n:"Polární liška",q:"Roztomillá bílá lištička.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000095-b5447b5449/IMG-20251122-WA0012.jpeg?ph=fc54d4bc0f"},
+  {n:"Shark",q:"Nebojte, kouše jen do vlny.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000078-8a0618a063/shark.jpeg?ph=fc54d4bc0f"},
+  {n:"Tulítko Kravička",q:"Kamarádka na spaní, co nikdy nezabučí.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000097-36d1d36d1e/IMG-20251122-WA0014.jpeg?ph=fc54d4bc0f"},
+  {n:"Pikachu",q:"Malý a připravený dobít baterky radoští.",c:"postavy",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000096-ecd20ecd22/IMG-20251122-WA0013.jpeg?ph=fc54d4bc0f"},
+  {n:"Lilo panenka",q:"Trochu bláznivá, ale o to víc k pomazlení.",c:"postavy",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000086-babdebabe0/Lilo%20panenka2.jpeg?ph=fc54d4bc0f"},
+  {n:"Jezevčík",q:"Krátké nožky, velké srdce.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000072-c820cc820e/jezev%C4%8D%C3%ADk.jpeg?ph=fc54d4bc0f"},
+  {n:"Králíček v oblečku",q:"Elegán, co se rád nechá pochovat.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000076-81e1781e19/kr%C3%A1l%C3%AD%C4%8Dek%20v%20oble%C4%8Dku.jpeg?ph=fc54d4bc0f"},
+  {n:"Žabka",q:"Prince nepřivolá, ale obejme srdcem.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000060-b8ee0b8ee2/%C5%BEabka.jpeg?ph=fc54d4bc0f"},
+  {n:"Unicorn",q:"Magie, duha a dávka roztomilosti v jednom.",c:"postavy",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000062-0fee00fee2/Unicorn.jpeg?ph=fc54d4bc0f"},
+  {n:"Mini Sushi",q:"Bez sójovky, ale s úsměvem navíc.",c:"dekorace",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000088-3ab1b3ab1d/sushi2.jpeg?ph=fc54d4bc0f"},
+  {n:"Háčko-noce",q:"Zapomeňte na vajíčka – letos se koledovalo.",c:"dekorace",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000050-350bd350bf/Velikonoce.jpeg?ph=fc54d4bc0f"},
+  {n:"Hlemýžď",q:"Nejroztomilejší důkaz, že háčkování má šťávu.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000047-2f1832f185/hlem%C3%BD%C5%BE%C4%8F.jpeg?ph=fc54d4bc0f"},
+  {n:"Buldoček",q:"Tuhle francouzskou módu chceš mazlit.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000056-7549375495/francouzsk%C3%BD_buldo%C4%8Dek.jpeg?ph=fc54d4bc0f"},
+  {n:"Beast",q:"Kamarádčin pes mě inspiroval.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000000-59dcd59dcf/IMG-20250402-WA0001.jpeg?ph=fc54d4bc0f"},
+  {n:"Hello Kitty",q:"Na přání pro malou slečnu.",c:"postavy",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000022-a31a5a31a7/IMG-20250402-WA0021.jpeg?ph=fc54d4bc0f"},
+  {n:"Kapybara",q:"The Capybara – hned jsem uháčkovala dvojčátka.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000004-487154871a/IMG-20250402-WA0015.jpeg?ph=fc54d4bc0f"},
+  {n:"Sushi polštář",q:"Na spaní i na tulení.",c:"dekorace",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000008-c4b6dc4b6f/IMG-20250215-WA0006.jpeg?ph=fc54d4bc0f"},
+  {n:"Hart",q:"Americký stafordšírský teriér. Zdá se milejší?",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000014-080fd080fe/IMG-20250402-WA0010.jpeg?ph=fc54d4bc0f"},
+  {n:"Želvička",q:"Malá barevná želvička — 19 cm, ač se nezdá.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000044-16b9716b99/%C5%BEelva.jpeg?ph=fc54d4bc0f"},
+  {n:"Lebka",q:"Polštář ala ‘lebka’... nápad tatíněka.",c:"dekorace",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000032-7aa767aa78/Lebka.jpeg?ph=fc54d4bc0f"},
+  {n:"Panda",q:"Jedno z mých prvních výtvorů.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000090-d1ce9d1ceb/panda2.jpeg?ph=fc54d4bc0f"},
+  {n:"Žaba",q:"Extrémně přerostlá žaba do postýlky.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000036-3833538337/%C5%BE%C3%A1ba.jpeg?ph=fc54d4bc0f"},
+  {n:"Dekorace",q:"Už nikdy nezvadné a nikdy nevyprchlá.",c:"dekorace",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000058-eb0beeb0c0/ozdobn%C3%A9%20drobnosti.jpeg?ph=fc54d4bc0f"},
+  {n:"Kytka v květináči",q:"Teta dostala tuto kytičku jako dárek.",c:"dekorace",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000040-aecafaecb1/kytka_v_kvetinaci.jpeg?ph=fc54d4bc0f"},
+  {n:"Plyšáčci",q:"Hračky, které již našly svého majitele.",c:"zvirata",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000042-4e09c4e09d/IMG-20241126-WA0009.jpeg?ph=fc54d4bc0f"}
+];
+
+var CC = {zvirata:"Zvíře",postavy:"Postavička",dekorace:"Dekorace"};
+var curF = "all";
+
+function makeSlider(slides, trackId, dotsId, prevId, nextId, ms) {
+  var idx = 0, timer = null;
+  var track = document.getElementById(trackId);
+  var dotsEl = document.getElementById(dotsId);
+  var btnP = document.getElementById(prevId);
+  var btnN = document.getElementById(nextId);
+  if (!track || !dotsEl || !btnP || !btnN) return;
+  slides.forEach(function(s, i) {
+    var slide = document.createElement("div");
+    slide.className = "slide";
+    slide.onclick = function() { go("gallery"); };
+    slide.innerHTML = '<img src="' + s.img + '" alt="' + s.n + '"><div class="slide-label"><div class="slide-label-name">' + s.n + '</div><div class="slide-label-sub">' + s.q + '</div></div>';
+    track.appendChild(slide);
+    var dot = document.createElement("button");
+    dot.className = "slider-dot" + (i === 0 ? " active" : "");
+    (function(ii) { dot.onclick = function() { jump(ii); reset(); }; })(i);
+    dotsEl.appendChild(dot);
+  });
+  function jump(i) {
+    idx = i;
+    track.style.transform = "translateX(-" + (i * 100) + "%)";
+    dotsEl.querySelectorAll(".slider-dot").forEach(function(d, di) { d.classList.toggle("active", di === i); });
+  }
+  function next() { jump((idx + 1) % slides.length); }
+  function prev() { jump((idx - 1 + slides.length) % slides.length); }
+  function reset() { clearInterval(timer); timer = setInterval(next, ms); }
+  btnP.onclick = function() { prev(); reset(); };
+  btnN.onclick = function() { next(); reset(); };
+  reset();
+}
+
+function renderGallery(cat) {
+  var list = cat === "all" ? ITEMS : ITEMS.filter(function(i) { return i.c === cat; });
+  document.getElementById("masonry").innerHTML = list.map(function(item) {
+    var i = ITEMS.indexOf(item);
+    return '<div class="m-card" onclick="lbOpen(' + i + ')"><div class="img-wrap"><img src="' + item.img + '" alt="' + item.n + '" loading="lazy"></div><div class="m-foot"><div class="m-cat">' + CC[item.c] + '</div><div class="m-name">' + item.n + '</div><div class="m-quote">„' + item.q + '“</div></div></div>';
+  }).join("");
+}
+
+function doFilter(cat, btn) {
+  curF = cat;
+  document.querySelectorAll(".fchip").forEach(function(b) { b.classList.remove("on"); });
+  btn.classList.add("on");
+  renderGallery(cat);
+}
+
+function lbOpen(i) {
+  var it = ITEMS[i];
+  document.getElementById("lbImg").src = it.img;
+  document.getElementById("lbN").textContent = it.n;
+  document.getElementById("lbQ").textContent = it.q;
+  document.getElementById("lb").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function lbClose(e) {
+  if (!e || e.target === document.getElementById("lb") || e.target.classList.contains("lb-close")) {
+    document.getElementById("lb").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+}
+
+function openByName(name) {
+  var i = ITEMS.findIndex(function(x) { return x.n === name; });
+  if (i >= 0) lbOpen(i);
+}
+
+function go(id) {
+  document.querySelectorAll(".page").forEach(function(p) { p.classList.remove("active"); });
+  document.querySelectorAll(".nav-links a").forEach(function(a) { a.classList.remove("active"); });
+  document.getElementById("page-" + id).classList.add("active");
+  var nl = document.getElementById("nl-" + id);
+  if (nl) nl.classList.add("active");
+  window.scrollTo(0, 0);
+  if (id === "gallery") renderGallery(curF);
+}
+
+function toggleM() { document.getElementById("mobMenu").classList.toggle("open"); }
+function closeM() { document.getElementById("mobMenu").classList.remove("open"); }
+
+document.addEventListener("keydown", function(e) { if (e.key === "Escape") lbClose({}); });
+
+document.addEventListener("DOMContentLoaded", function() {
+  makeSlider([
+    {n:"Hello Kitty",q:"Na přání pro malou slečnu.",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000022-a31a5a31a7/IMG-20250402-WA0021.jpeg?ph=fc54d4bc0f"},
+    {n:"Kapybara",q:"The Capybara – hned jsem uháčkovala dvojčátka.",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000004-487154871a/IMG-20250402-WA0015.jpeg?ph=fc54d4bc0f"},
+    {n:"Hlemýžď",q:"Nejroztomilejší důkaz, že háčkování má šťávu.",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000047-2f1832f185/hlem%C3%BD%C5%BE%C4%8F.jpeg?ph=fc54d4bc0f"}
+  ], "sliderTrack", "sliderDots", "btnPrev", "btnNext", 5000);
+
+  makeSlider([
+    {n:"Jezevčík",q:"Krátké nožky, velké srdce.",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000072-c820cc820e/jezev%C4%8D%C3%ADk.jpeg?ph=fc54d4bc0f"},
+    {n:"Kapybara",q:"The Capybara – hned jsem uháčkovala dvojčátka.",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000004-487154871a/IMG-20250402-WA0015.jpeg?ph=fc54d4bc0f"},
+    {n:"Pikachu",q:"Malý a připravený dobít baterky radoští.",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000096-ecd20ecd22/IMG-20251122-WA0013.jpeg?ph=fc54d4bc0f"},
+    {n:"Shark",q:"Nebojte, kouše jen do vlny.",img:"https://fc54d4bc0f.cbaul-cdnwnd.com/44cef4e5728c212db0329e4768434649/200000078-8a0618a063/shark.jpeg?ph=fc54d4bc0f"}
+  ], "aboutSliderTrack", "aboutSliderDots", "aboutBtnPrev", "aboutBtnNext", 5500);
+
+  window.addEventListener("scroll", function() {
+    document.getElementById("mainNav").classList.toggle("scrolled", window.scrollY > 10);
+  });
+});
+</script>
+</body>
+</html>
